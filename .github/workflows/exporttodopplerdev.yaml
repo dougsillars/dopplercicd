@@ -5,8 +5,8 @@ on: workflow_dispatch
 jobs:
   export-to-doppler:
     runs-on: ubuntu-latest
-    name: export GitHub secrets to Doppler
-    environment: Prod
+    name: export GitHub secrets to Dopplern Dev
+    environment: Dev
     steps:
     - name: Install Doppler CLI
       uses: dopplerhq/cli-action@v3
