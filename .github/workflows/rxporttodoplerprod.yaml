@@ -14,7 +14,7 @@ jobs:
       run: doppler secrets upload --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG"  --silent <(echo "$GITHUB_SECRETS" | jq 'del(.github_token, .DOPPLER_TOKEN, .DOPPLER_TARGET_PROJECT, .DOPPLER_TARGET_CONFIG) | with_entries( .key |= ascii_upcase )')
       shell: bash
       env:
-        DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+        DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_PROD }}
         DOPPLER_TARGET_PROJECT: ${{ secrets.DOPPLER_TARGET_PROJECT }}
         DOPPLER_TARGET_CONFIG: ${{ secrets.DOPPLER_TARGET_CONFIG_PROD }}
         GITHUB_SECRETS: ${{ toJson(secrets) }}
