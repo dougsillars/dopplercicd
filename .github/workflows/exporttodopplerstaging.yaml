@@ -1,4 +1,4 @@
-name: Export Secrets to Doppler prod
+name: Export Secrets to Doppler Staging
 
 on: workflow_dispatch
 
