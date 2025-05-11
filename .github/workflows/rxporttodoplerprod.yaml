@@ -6,7 +6,7 @@ jobs:
   export-to-doppler:
     runs-on: ubuntu-latest
     name: export GitHub secrets to Doppler
-    env: Prod
+    environment: Prod
     steps:
     - name: Install Doppler CLI
       uses: dopplerhq/cli-action@v3
