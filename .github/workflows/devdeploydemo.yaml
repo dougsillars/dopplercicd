@@ -21,6 +21,11 @@ jobs:
       run: |
         echo "The generated string is: ${{ steps.generate-string.outputs.RandomString }}"
         echo "This string can be used in further steps."
+    - name: Use Generated String in Another Script
+      run: |
+        # Example script that uses the generated string
+        echo "Using the generated string: ${{ steps.generate-string.outputs.RandomString }}"
+        # You can perform any operations here using the generated string
     - name: Install Doppler CLI
       uses: dopplerhq/cli-action@v3
     - name: Change API_KEY Secret 
