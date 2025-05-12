@@ -19,14 +19,10 @@ jobs:
           RANDOM_STRING=$(openssl rand -hex 8) # 16 hex characters
           echo "Random string: $RANDOM_STRING"
           echo "random_string=$RANDOM_STRING" >> "$GITHUB_OUTPUT"
-
-      - name: Use random string
-        run: echo "The random string is ${{ steps.generate.outputs.random_string }}"
-
       - name: Install Doppler CLI
         uses: dopplerhq/cli-action@v3
       - name: Change API_KEY Secret 
-        run: doppler secrets set API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG"   --no-interactive --raw "$RANDOM_STRING"
+        run: doppler secrets set API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG" --silent  --no-interactive --raw "$RANDOM_STRING"
         shell: bash
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
