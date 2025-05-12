@@ -19,7 +19,7 @@ jobs:
     - name: Install Doppler CLI
       uses: dopplerhq/cli-action@v3
     - name: Change API_KEY Secret 
-      run: doppler secrets set API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG"   --no-interactive --raw {{ secrets.RandomString }}
+      run: doppler secrets set API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG"   --no-interactive --raw ${{ secrets.RandomString }}
       shell: bash
       env:
         DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
