@@ -9,33 +9,30 @@ jobs:
   generate-string:
     runs-on: ubuntu-latest
 
+    outputs:
+      random_string: ${{ steps.generate.outputs.random_string }}
+
     steps:
-    - name: Generate 16 Character String
-      id: generate-string
-      run: |
-        # Generate a 16 character random string
-        STRING=$(openssl rand -base64 10 | tr -d '+/=')
-        echo "Generated String: $STRING"
-        echo "##vso[task.setvariable variable=RandomString]$STRING"
-    - name: Display Generated String
-      run: |
-        echo "The generated string is: ${{ steps.generate-string.outputs.RandomString }}"
-        echo "This string can be used in further steps."
-    - name: Use Generated String in Another Script
-      run: |
-        # Example script that uses the generated string
-        echo "Using the generated string: ${{ steps.generate-string.outputs.RandomString }}"
-        # You can perform any operations here using the generated string
-    - name: Install Doppler CLI
-      uses: dopplerhq/cli-action@v3
-    - name: Change API_KEY Secret 
-      run: doppler secrets set API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG"   --no-interactive --raw "$RANDOM_STRING"
-      shell: bash
-      env:
-        DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
-        DOPPLER_TARGET_PROJECT: ${{ secrets.DOPPLER_TARGET_PROJECT }}
-        DOPPLER_TARGET_CONFIG: ${{ secrets.DOPPLER_TARGET_CONFIG_DEV }}
-        RANDOM_STRING: ${{ steps.generate-string.outputs.RandomString }}
+      - name: Generate random string
+        id: generate
+        run: |
+          RANDOM_STRING=$(openssl rand -hex 8) # 16 hex characters
+          echo "Random string: $RANDOM_STRING"
+          echo "random_string=$RANDOM_STRING" >> "$GITHUB_OUTPUT"
+
+      - name: Use random string
+        run: echo "The random string is ${{ steps.generate.outputs.random_string }}"
+
+      - name: Install Doppler CLI
+        uses: dopplerhq/cli-action@v3
+      - name: Change API_KEY Secret 
+        run: doppler secrets set API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG"   --no-interactive --raw "$RANDOM_STRING"
+        shell: bash
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
+          DOPPLER_TARGET_PROJECT: ${{ secrets.DOPPLER_TARGET_PROJECT }}
+          DOPPLER_TARGET_CONFIG: ${{ secrets.DOPPLER_TARGET_CONFIG_DEV }}
+          RANDOM_STRING: ${{ steps.generate.outputs.random_string }}
 
 
        
