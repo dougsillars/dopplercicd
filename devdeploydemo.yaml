@@ -1,0 +1,31 @@
+name: Change API key on dev during push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate-string:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Generate 16 Character String
+      run: |
+        # Generate a 16 character random string
+        STRING=$(openssl rand -base64 10 | tr -d '+/=')
+        echo "Generated String: $STRING"
+        echo "##vso[task.setvariable variable=RandomString]$STRING"
+    - name: Install Doppler CLI
+      uses: dopplerhq/cli-action@v3
+    - name: Change API_KEY Secret 
+      run: doppler secrets set API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG"  --silent --no-interactive --raw $STRING
+      shell: bash
+      env:
+        DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
+        DOPPLER_TARGET_PROJECT: ${{ secrets.DOPPLER_TARGET_PROJECT }}
+        DOPPLER_TARGET_CONFIG: ${{ secrets.DOPPLER_TARGET_CONFIG_DEV }}
+
+
+
+        doppler secrets set API_KEY --project doug-testproject --config dev --no-interactive --raw adfsdgsDOUGdfdsfdsgf --silent 
