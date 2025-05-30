@@ -32,7 +32,7 @@ jobs:
       - name: Do CI CD things
         run: echo "Secret created at Doppler and added to GitHub. Now we can deploy stuff."
       - name: Delete API_KEY Secret 
-        run: doppler secrets delete API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG" --silent  --no-interactive 
+        run: doppler secrets delete API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG" 
         shell: bash
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
