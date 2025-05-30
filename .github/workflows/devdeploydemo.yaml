@@ -22,18 +22,15 @@ jobs:
       - name: Install Doppler CLI
         uses: dopplerhq/cli-action@v3
       - name: Change API_KEY Secret 
-        run:  |
-          doppler secrets set API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG" --silent  --no-interactive --raw "$RANDOM_STRING"
-          echo "Secret created at Doppler and added to GitHub"
-          echo "Now we can deploy stuff."
+        run:  doppler secrets set API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG" --silent  --no-interactive --raw "$RANDOM_STRING"
         shell: bash
-
+      - name: Do CI CD things
+        run: echo "Secret created at Doppler and added to GitHub. Now we can deploy stuff."
       - name: Delete API_KEY Secret 
-        run: |
-          doppler secrets delete API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG" --silent  --no-interactive 
-          echo "Secret deleted at Doppler and removed from GitHub"
+        run: doppler secrets delete API_KEY --project "$DOPPLER_TARGET_PROJECT" --config "$DOPPLER_TARGET_CONFIG" --silent  --no-interactive 
         shell: bash
-        
+      - name: secret deleted
+        run: echo "new secret deletedfrom Doppler & GitHub"  
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
           DOPPLER_TARGET_PROJECT: ${{ secrets.DOPPLER_TARGET_PROJECT }}
