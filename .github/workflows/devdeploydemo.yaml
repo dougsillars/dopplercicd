@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  generate-string:
+  generate-apikey:
     runs-on: ubuntu-latest
 
     outputs:
